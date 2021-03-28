@@ -57,7 +57,7 @@
       "owner": "platformio",
       "version": "~1.6.12"
     },
-    "framework-arduino-samc-fortytwo": {
+    "framework-arduino-samd-fortytwo": {
       "type": "framework",
       "optional": true,
       "owner": "fortytwo-systems",
