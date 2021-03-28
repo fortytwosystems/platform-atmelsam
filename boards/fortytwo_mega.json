@@ -1,0 +1,49 @@
+{
+  "build": {
+    "arduino": {
+        "ldscript": "flash_with_bootloader.ld"
+    },
+    "core": "fortytwo",
+    "cpu": "cortex-m0plus",
+    "extra_flags": "-D__SAMC21N18A__ -DSAMC21 -DSAMC21N",
+    "f_cpu": "48000000L",
+    "hwids": [
+      [
+        "0x0403",
+        "0x6015"
+      ]
+    ],
+    "mcu": "samc21n18a",
+    "usb_product": "FortyTwo Mega",
+    "variant": "fortytwo_mega"
+  },
+  "debug": {
+    "jlink_device": "ATSAMC21N18",
+    "openocd_chipname": "at91samc21n18",
+    "openocd_target": "at91samdXX",
+    "svd_path": "ATSAMC21N18A.svd"
+  },
+  "frameworks": [
+    "arduino"
+  ],
+  "name": "FortyTwo Systems Mega",
+  "upload": {
+    "disable_flushing": true,
+    "maximum_ram_size": 32768,
+    "maximum_size": 262144,
+    "native_usb": false,
+    "offset_address": "0x2000",
+    "protocol": "sam-ba",
+    "protocols": [
+      "sam-ba",
+      "blackmagic",
+      "jlink",
+      "atmel-ice"
+    ],
+    "require_upload_port": false,
+    "use_1200bps_touch": false,
+    "wait_for_upload_port": false
+  },
+  "url": "https://github.com/fortytwosystems/Mega",
+  "vendor": "FortyTwo Systems"
+}

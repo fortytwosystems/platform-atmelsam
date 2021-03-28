@@ -1,0 +1,49 @@
+{
+  "build": {
+    "arduino": {
+        "ldscript": "flash_with_bootloader.ld"
+    },
+    "core": "fortytwo",
+    "cpu": "cortex-m0plus",
+    "extra_flags": "-D__SAMC21G18A__ -DSAMC21",
+    "f_cpu": "48000000L",
+    "hwids": [
+      [
+        "0x0403",
+        "0x6015"
+      ]
+    ],
+    "mcu": "samc21g18a",
+    "usb_product": "FortyTwo Uno",
+    "variant": "fortytwo_uno"
+  },
+  "debug": {
+    "jlink_device": "ATSAMC21G18",
+    "openocd_chipname": "at91samc21g18",
+    "openocd_target": "at91samdXX",
+    "svd_path": "ATSAMC21G18A.svd"
+  },
+  "frameworks": [
+    "arduino"
+  ],
+  "name": "FortyTwo Systems Uno",
+  "upload": {
+    "disable_flushing": true,
+    "maximum_ram_size": 32768,
+    "maximum_size": 262144,
+    "native_usb": false,
+    "offset_address": "0x2000",
+    "protocol": "sam-ba",
+    "protocols": [
+      "sam-ba",
+      "blackmagic",
+      "jlink",
+      "atmel-ice"
+    ],
+    "require_upload_port": false,
+    "use_1200bps_touch": false,
+    "wait_for_upload_port": false
+  },
+  "url": "https://github.com/fortytwosystems/Uno",
+  "vendor": "FortyTwo Systems"
+}
