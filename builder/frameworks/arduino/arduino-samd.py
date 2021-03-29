@@ -43,6 +43,13 @@ if(board.get("build.mcu", "").startswith("samc21")):
 else:
     CMSIS_ATMEL_DIR = platform.get_package_dir("framework-cmsis-atmel")
 
+if board.get("build.mcu", "").startswith("samc21n"):
+    CMSIS_ATMEL_PATH = os.path.join(CMSIS_ATMEL_DIR, "CMSIS-Microchip", "samc21n", "include")
+elif board.get("build.mcu", "").startswith("samc21"):
+    CMSIS_ATMEL_PATH = os.path.join(CMSIS_ATMEL_DIR, "CMSIS-Microchip", "samc21", "include")
+else:
+    CMSIS_ATMEL_PATH = os.path.join(CMSIS_ATMEL_DIR, "CMSIS", "Device", "ATMEL")
+
 assert all(os.path.isdir(d) for d in (FRAMEWORK_DIR, CMSIS_DIR, CMSIS_ATMEL_DIR))
 
 env.SConscript("arduino-common.py")
@@ -62,7 +69,7 @@ env.Append(
             "CMSIS",
             os.path.join("Core", "Include") if VENDOR_CORE in ("adafruit", "seeed") else "Include",
         ),  # Adafruit and Seeed cores use CMSIS v5.4 with different folder structure
-        os.path.join(CMSIS_ATMEL_DIR, "CMSIS-Microchip", "samc21n", "include") if (board.get("build.mcu", "").startswith("samc21n")) else (CMSIS_ATMEL_DIR, "CMSIS-Microchip", "samc21", "include") if (board.get("build.mcu", "").startswith("samc21n")) else os.path.join(CMSIS_ATMEL_DIR, "CMSIS", "Device", "ATMEL"),
+        CMSIS_ATMEL_PATH,
         os.path.join(FRAMEWORK_DIR, "cores", BUILD_CORE)
     ],
 
