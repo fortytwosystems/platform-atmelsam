@@ -31,8 +31,12 @@ env = DefaultEnvironment()
 board = env.BoardConfig()
 build_mcu = env.get("BOARD_MCU", board.get("build.mcu", ""))
 
-MCU_FAMILY = board.get(
-    "build.system", "sam" if build_mcu.startswith("at91") else "samd")
+if build_mcu.startswith("at91"):
+    MCU_FAMILY = board.get("build.system", "sam")
+elif build_mcu.startswith("samd"):
+    MCU_FAMILY = board.get("build.system", "samd")
+elif build_mcu.startswith("samc"):
+    MCU_FAMILY = board.get("build.system", "samc")
 
 if env.BoardConfig().get("build.core", "").lower() == "mbcwb":
     env.SConscript(

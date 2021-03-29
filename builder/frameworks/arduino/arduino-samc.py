@@ -14,9 +14,11 @@
 
 """
 Arduino
+
 Arduino Wiring-based Framework allows writing cross-platform software to
 control devices attached to a wide range of Arduino boards to create all
 kinds of creative coding, interactive objects, spaces or physical experiences.
+
 http://arduino.cc/en/Reference/HomePage
 """
 
@@ -30,33 +32,37 @@ board = env.BoardConfig()
 
 VENDOR_CORE = board.get("build.core", "").lower()
 
-framework_package = "framework-arduino-samd"
+framework_package = "framework-arduino-samc"
 if VENDOR_CORE != "arduino":
     framework_package += "-%s" % VENDOR_CORE
 FRAMEWORK_DIR = platform.get_package_dir(framework_package)
 CMSIS_DIR = platform.get_package_dir("framework-cmsis")
-CMSIS_ATMEL_DIR = platform.get_package_dir("framework-cmsis-atmel")
+
+CMSIS_ATMEL_DIR = platform.get_package_dir("framework-cmsis-microchip")
+
+if board.get("build.mcu", "").startswith("samc21n"):
+    CMSIS_ATMEL_PATH = os.path.join(CMSIS_ATMEL_DIR, "CMSIS-Microchip", "samc21n", "include")
+else:
+    CMSIS_ATMEL_PATH = os.path.join(CMSIS_ATMEL_DIR, "CMSIS-Microchip", "samc21", "include")
 
 assert all(os.path.isdir(d) for d in (FRAMEWORK_DIR, CMSIS_DIR, CMSIS_ATMEL_DIR))
 
 env.SConscript("arduino-common.py")
 
 BUILD_CORE = "arduino"
-if VENDOR_CORE == "sparkfun" and board.get("build.mcu", "").startswith("samd51"):
-    BUILD_CORE = "arduino51"
 
 env.Append(
     CPPDEFINES=[
-        "ARDUINO_ARCH_SAMD"
+        "ARDUINO_ARCH_SAMC"
     ],
 
     CPPPATH=[
         os.path.join(
             CMSIS_DIR,
             "CMSIS",
-            os.path.join("Core", "Include") if VENDOR_CORE in ("adafruit", "seeed") else "Include",
-        ),  # Adafruit and Seeed cores use CMSIS v5.4 with different folder structure
-        os.path.join(CMSIS_ATMEL_DIR, "CMSIS", "Device", "ATMEL"),
+            "Include",
+        ),
+        CMSIS_ATMEL_PATH,
         os.path.join(FRAMEWORK_DIR, "cores", BUILD_CORE)
     ],
 
@@ -70,65 +76,11 @@ env.Append(
     ]
 )
 
-if board.get("build.cpu") == "cortex-m4":
-    env.Prepend(
-        CCFLAGS=[
-            "-mfloat-abi=hard",
-            "-mfpu=fpv4-sp-d16"
-        ],
+env.Prepend(
+    LIBS=["arm_cortexM0l_math"]
+)
 
-        LINKFLAGS=[
-            "-mfloat-abi=hard",
-            "-mfpu=fpv4-sp-d16"
-        ],
-
-        LIBS=["arm_cortexM4lf_math"]
-    )
-else:
-    env.Prepend(
-        LIBS=["arm_cortexM0l_math"]
-    )
-
-if VENDOR_CORE in ("seeed", "adafruit", "moteino"):
-    env.Append(
-        CPPDEFINES=[
-            ("USB_CONFIG_POWER", board.get("build.usb_power", 100))
-        ],
-
-        CCFLAGS=[
-            "-Wno-expansion-to-defined"
-        ],
-
-        CPPPATH=[
-            os.path.join(FRAMEWORK_DIR, "cores", BUILD_CORE, "TinyUSB"),
-            os.path.join(FRAMEWORK_DIR, "cores", BUILD_CORE, "TinyUSB",
-                "Adafruit_TinyUSB_ArduinoCore"),
-            os.path.join(FRAMEWORK_DIR, "cores", BUILD_CORE, "TinyUSB",
-                "Adafruit_TinyUSB_ArduinoCore", "tinyusb", "src")
-        ]
-    )
-
-    if VENDOR_CORE in ("adafruit", "seeed"):
-        env.Append(CPPPATH=[os.path.join(CMSIS_DIR, "CMSIS", "DSP", "Include")])
-
-#
-# Vendor-specific configurations
-#
-
-if VENDOR_CORE == "moteino":
-    env.Append(
-        CPPDEFINES=[
-            "ARM_MATH_CM0PLUS"
-        ]
-    )
-elif VENDOR_CORE == "seeed":
-    env.Append(
-        LINKFLAGS=[
-            "-Wl,--wrap,_write",
-            "-u", "__wrap__write"
-        ]
-    )
-elif VENDOR_CORE == "arduino":
+if VENDOR_CORE == "arduino":
     env.Prepend(
         CPPPATH=[
             os.path.join(FRAMEWORK_DIR, "cores", BUILD_CORE, "api", "deprecated"),

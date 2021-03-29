@@ -57,7 +57,7 @@
       "owner": "platformio",
       "version": "~1.6.12"
     },
-    "framework-arduino-samd-fortytwo": {
+    "framework-arduino-samc": {
       "type": "framework",
       "optional": true,
       "owner": "fortytwo-systems",
@@ -129,7 +129,7 @@
         "~1.1.0"
       ]
     },
-    "framework-cmsis-microchip-fortytwo": {
+    "framework-cmsis-microchip": {
       "type": "framework",
       "optional": true,
       "owner": "fortytwo-systems",
@@ -284,7 +284,7 @@
         "~1.10900.0"
       ]
     },
-    "tool-bossac-fortytwo": {
+    "tool-bossac-samc": {
       "type": "uploader",
       "optional": true,
       "owner": "fortytwo-systems",

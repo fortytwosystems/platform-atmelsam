@@ -30,8 +30,10 @@ class AtmelsamPlatform(PlatformBase):
                                         board.get("upload.protocol", ""))
         disabled_pkgs = []
         upload_tool = "tool-openocd"
-        if upload_protocol == "sam-ba":
-            upload_tool = "tool-bossac-fortytwo"
+        if upload_protocol == "sam-ba" and board.get("build.mcu", "").startswith("samc21"):
+            upload_tool = "tool-bossac-samc" # Needs separate version because standard BOSSA doesn't include SAMC21
+        elif upload_protocol == "sam-ba":
+            upload_tool = "tool-bossac"
         elif upload_protocol == "stk500v2":
             upload_tool = "tool-avrdude"
         elif upload_protocol == "jlink":
