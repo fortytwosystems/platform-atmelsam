@@ -31,9 +31,14 @@ platform = env.PioPlatform()
 board = env.BoardConfig()
 build_mcu = env.get("BOARD_MCU", board.get("build.mcu", ""))
 
-MCU_FAMILY = board.get(
-    "build.system", "sam" if build_mcu.startswith("at91") else "samd")
-assert MCU_FAMILY in ("sam", "samd")
+if board.get("build.mcu", "").startswith("samd"):
+    MCU_FAMILY = "samd"
+elif board.get("build.mcu", "").startswith("samc"):
+    MCU_FAMILY = "samc"
+elif board.get("build.mcu", "").startswith("at91"):
+    MCU_FAMILY = "sam"
+
+assert MCU_FAMILY in ("sam", "samd", "samc")
 
 framework_package = "framework-arduino-" + MCU_FAMILY
 if board.get("build.core", "").lower() != "arduino":
