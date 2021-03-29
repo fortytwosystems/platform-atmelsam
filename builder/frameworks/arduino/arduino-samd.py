@@ -39,9 +39,9 @@ FRAMEWORK_DIR = platform.get_package_dir(framework_package)
 CMSIS_DIR = platform.get_package_dir("framework-cmsis")
 
 if(board.get("build.mcu", "").startswith("samc21")):
-    CMSIS_ATMEL_DIR = if(platform.get_package_dir("framework-cmsis-microchip-fortytwo")
+    CMSIS_ATMEL_DIR = platform.get_package_dir("framework-cmsis-microchip-fortytwo")
 else:
-    CMSIS_ATMEL_DIR = if(platform.get_package_dir("framework-cmsis-atmel")
+    CMSIS_ATMEL_DIR = platform.get_package_dir("framework-cmsis-atmel")
 
 assert all(os.path.isdir(d) for d in (FRAMEWORK_DIR, CMSIS_DIR, CMSIS_ATMEL_DIR))
 
