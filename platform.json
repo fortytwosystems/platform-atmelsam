@@ -284,6 +284,12 @@
         "~1.10900.0"
       ]
     },
+    "tool-bossac-fortytwo": {
+      "type": "uploader",
+      "optional": true,
+      "owner": "fortytwo-systems",
+      "version": "~1.0.0"
+    },
     "tool-mbctool": {
       "optional": true,
       "owner": "meteca",
