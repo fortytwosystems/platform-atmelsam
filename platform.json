@@ -129,6 +129,12 @@
         "~1.1.0"
       ]
     },
+    "framework-cmsis-microchip-fortytwo": {
+      "type": "framework",
+      "optional": true,
+      "owner": "fortytwo-systems",
+      "version": "~1.0.0"
+    },
     "framework-arduino-mbcwb": {
       "type": "framework",
       "optional": true,
