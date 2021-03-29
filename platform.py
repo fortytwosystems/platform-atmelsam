@@ -57,7 +57,7 @@ class AtmelsamPlatform(PlatformBase):
                 framework_package = "framework-arduino-samd"
             elif board.get("build.mcu", "").startswith("samc"):
                 framework_package = "framework-arduino-samc"
-           elif board.get("build.mcu", "").startswith("at91"):
+            elif board.get("build.mcu", "").startswith("at91"):
                 framework_package = "framework-arduino-sam"
 
             if build_core != "arduino":
