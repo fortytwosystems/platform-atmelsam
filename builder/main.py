@@ -223,7 +223,7 @@ elif upload_protocol == "sam-ba":
             UPLOADERFLAGS=[
             "-U", "--offset", board.get("upload.offset_address")])
 
-    else if board.get("build.mcu").startswith("samc21"):
+    elif board.get("build.mcu").startswith("samc21"):
         env.Append(
             UPLOADERFLAGS=[
             "-U", "--offset", board.get("upload.offset_address")])
